@@ -5,29 +5,29 @@ require("dotenv").config();
 
 const app = express();
 
+/* ---------- MIDDLEWARE ---------- */
 app.use(cors());
 app.use(express.json());
 
-// serve images (if using local assets)
-app.use("/assets", express.static("assets"));
+/* ---------- DATABASE ---------- */
+if (process.env.MONGO_URI) {
+  mongoose
+    .connect(process.env.MONGO_URI)
+    .then(() => console.log("✅ MongoDB Connected"))
+    .catch((err) => console.error("❌ MongoDB Error:", err.message));
+} else {
+  console.warn("⚠️ MONGO_URI not found. Database not connected.");
+}
 
-// routes
-app.use("/products", require("./routes/products"));
-
+/* ---------- ROUTES ---------- */
 app.get("/", (req, res) => {
-  res.json({ message: "Backend running" });
+  res.status(200).json({
+    success: true,
+    message: "Backend is running successfully 🚀"
+  });
 });
 
-const PORT = process.env.PORT || 5000;
-
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("MongoDB Connected");
-    app.listen(PORT, () =>
-      console.log(`Server running on port ${PORT}`)
-    );
-  })
-  .catch(err => {
-    console.error("MongoDB connection error:", err.message);
-  });
+/* ---------- EXPORT APP ---------- */
+// ❌ DO NOT use app.listen()
+// ✅ Required for Vercel & serverless
+module.exports = app;
