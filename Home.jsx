@@ -1,67 +1,57 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+  const navigate = useNavigate();
+
+  const categories = [
+    {
+      name: "Electronics",
+      image:
+        "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80",
+      route: "/products?category=ELECTRONICS",
+    },
+    {
+      name: "Fashion",
+      image:
+        "https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=800&q=80",
+      route: "/products?category=FASHION",
+    },
+    {
+      name: "Footwear",
+      image:
+        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
+      route: "/products?category=FOOTWEAR",
+    },
+    {
+      name: "Accessories",
+      image:
+        "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=800&q=80",
+      route: "/products?category=ACCESSORIES",
+    },
+  ];
+
   return (
-    <div>
-      {/* HERO SECTION */}
-      <div style={hero}>
-        <div style={overlay}>
-          <h1 style={title}>Welcome to ShopHub</h1>
-          <p style={subtitle}>
-            One place for Electronics, Fashion, Footwear & Accessories
-          </p>
-        </div>
-      </div>
+    <div style={container}>
+      <h1 style={title}>Welcome to ShopHub</h1>
+      <p style={subtitle}>Choose a category to explore products</p>
 
-      {/* CATEGORY SECTION */}
-      <div style={section}>
-        <h2 style={{ marginBottom: 20 }}>Shop by Category</h2>
-
-        <div style={grid}>
-          <Link to="/products?category=electronics" style={link}>
-            <div style={card}>
-              <img
-                src="https://via.placeholder.com/400x300?text=Electronics"
-                alt="Electronics"
-                style={img}
-              />
-              <h3>Electronics</h3>
+      <div style={grid}>
+        {categories.map((cat) => (
+          <div
+            key={cat.name}
+            style={card}
+            onClick={() => navigate(cat.route)}
+          >
+            <img
+              src={cat.image}
+              alt={cat.name}
+              style={image}
+            />
+            <div style={overlay}>
+              <h2 style={cardTitle}>{cat.name}</h2>
             </div>
-          </Link>
-
-          <Link to="/products?category=fashion" style={link}>
-            <div style={card}>
-              <img
-                src="https://via.placeholder.com/400x300?text=Fashion"
-                alt="Fashion"
-                style={img}
-              />
-              <h3>Fashion</h3>
-            </div>
-          </Link>
-
-          <Link to="/products?category=footwear" style={link}>
-            <div style={card}>
-              <img
-                src="https://via.placeholder.com/400x300?text=Footwear"
-                alt="Footwear"
-                style={img}
-              />
-              <h3>Footwear</h3>
-            </div>
-          </Link>
-
-          <Link to="/products?category=accessories" style={link}>
-            <div style={card}>
-              <img
-                src="https://via.placeholder.com/400x300?text=Accessories"
-                alt="Accessories"
-                style={img}
-              />
-              <h3>Accessories</h3>
-            </div>
-          </Link>
-        </div>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -69,62 +59,56 @@ export default function Home() {
 
 /* ================= STYLES ================= */
 
-const hero = {
-  height: "70vh",
-  backgroundImage:
-    "url(https://via.placeholder.com/1600x900?text=ShopHub+Shopping)",
-  backgroundSize: "cover",
-  backgroundPosition: "center",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-};
-
-const overlay = {
-  background: "rgba(0,0,0,0.6)",
-  padding: 40,
-  borderRadius: 12,
-  textAlign: "center",
-  color: "#fff",
+const container = {
+  padding: "40px",
+  minHeight: "100vh",
+  background: "#f5f7fb",
 };
 
 const title = {
-  fontSize: 42,
-  marginBottom: 10,
+  textAlign: "center",
+  fontSize: "36px",
+  marginBottom: "10px",
 };
 
 const subtitle = {
-  fontSize: 18,
-};
-
-const section = {
-  padding: 40,
-  background: "#f9fafb",
+  textAlign: "center",
+  color: "#555",
+  marginBottom: "40px",
 };
 
 const grid = {
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-  gap: 20,
+  gap: "25px",
 };
 
 const card = {
-  background: "#fff",
-  borderRadius: 12,
+  position: "relative",
+  borderRadius: "16px",
   overflow: "hidden",
-  boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
-  textAlign: "center",
   cursor: "pointer",
-  transition: "transform 0.2s",
+  boxShadow: "0 10px 25px rgba(0,0,0,0.15)",
 };
 
-const img = {
+const image = {
   width: "100%",
-  height: 200,
+  height: "220px",
   objectFit: "cover",
+  display: "block",
 };
 
-const link = {
-  textDecoration: "none",
-  color: "inherit",
+const overlay = {
+  position: "absolute",
+  bottom: 0,
+  width: "100%",
+  background: "rgba(0,0,0,0.6)",
+  padding: "15px",
+  textAlign: "center",
+};
+
+const cardTitle = {
+  color: "#fff",
+  margin: 0,
+  fontSize: "22px",
 };
